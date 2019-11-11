@@ -212,21 +212,21 @@ function Install-Chocolatey
 {
 	<#
 	.SYNOPSIS
-	Insure Chocolatey is installed
+	Ensure Chocolatey is installed
 	.DESCRIPTION
 	Check if Chocolatey is installed.If not, then install it.
 	.EXAMPLE
 	Install-Chocolatey	
 	#>
-	
+		
 	[CmdletBinding(SupportsShouldProcess = $True)]
 	param( )
 	Write-Output -Category Info -Message "verifying chocolatey is installed"
 	if (!(Test-Path "$( $env:ProgramData )\chocolatey\choco.exe"))
 	{
-		write-FPLog -Category Info -Message "installing chocolatey..."
+		Write-Output -Category Info -Message "installing chocolatey..."
 		try {
-			iex((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+			Invoke-Expression((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 		}
 		catch {
 			Write-Output -Category Error -Message $_.Exception.Message
@@ -237,6 +237,9 @@ function Install-Chocolatey
 		Write-Output -Category Info -Message "chocolatey is already installed"
 	}
 }
+
+#Alternative Set-ExecutionPolicy Bypass -Scope process -Force ; iwr https:/ / chocolatey.org / install.ps1 -UseBasicParsing | iex
+
 
 #endregion
 
@@ -369,13 +372,55 @@ function BTN_3rdbloatClick( $object ){
 	$LABEL_3rdbloat.Text = "REMOVED"
 }
 
-function BTN_installgoClick( $object ){
-	
+function BTN_installgoClick($object)
+{
+		
 	if ($CHK_7zips.Checked -eq $true)
 	{
 		choco install 7 zip
+												
+		Write-Output 7 zip installing
+	}
+		
+	if ($CHK_discord.Checked -eq $true)
+	{
+		choco install discord.install
+	}
+													
+	Write-Output Discord installing
+}
+			
+	
+
 				
-		Write-Output 7zip installing
+	if ($CHK_steam.Checked -eq $true)
+	{
+		choco install steam
+																			
+		Write-Output Steam installing
+		}
+				
+
+
+						
+	if ($CHK_chrome.Checked -eq $true)
+	{
+		choco install googlechrome
+																									
+		Write-Output Chrome installing
+		}
+						
+			
+
+							
+	if ($CHK_chrome.Checked -eq $true)
+	{
+		choco install firefox
+																							
+		Write-Output Firefox installing
+			}
+			
+					
 }
 
 Main # This call must remain below all other event functions
